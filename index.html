@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlowFit | Фитнес клуб | Кокшетау</title>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style> 
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #0c0c10;
+            color: #f0f0f0;
+        }
+
+       
+        :root {
+            --bg: #0c0c10;
+            --purple: #b77aff;
+            --purple-dark: #9f5ef0;
+            --card-bg: #16161e;
+            --border: #2c2c38;
+        }
+
+      
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 5px var(--purple); }
+            50% { box-shadow: 0 0 20px var(--purple); }
+            100% { box-shadow: 0 0 5px var(--purple); }
+        }
+
+        .animate-item {
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+       
+        header {
+            background: rgba(12, 12, 16, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--purple);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo span {
+            color: var(--purple);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        nav ul li a {
+            color: #ddd;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        nav ul li a:hover {
+            color: var(--purple);
+        }
+
+        /* Hero секция */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            gap: 50px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-content h1 span {
+            color: var(--purple);
+            text-shadow: 0 0 10px var(--purple);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--purple);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 40px;
+            font-weight: 600;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(183, 122, 255, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--purple-dark);
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(183, 122, 255, 0.5);
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-image img {
+            max-width: 90%;
+            border-radius: 30px;
+            border: 3px solid var(--purple);
+            box-shadow: 0 20px 40px rgba(183, 122, 255, 0.2);
+            transition: 0.5s;
+        }
+
+        .hero-image img:hover {
+            transform: scale(1.02);
+        }
+
+      
+        section {
+            padding: 80px 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title span {
+            color: var(--purple);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--purple);
+            border-radius: 3px;
+        }
+
+        
+        .trainers-grid, .classes-grid, .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .trainer-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: 0.4s;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards;
+        }
+
+        .trainer-card:hover {
+            border-color: var(--purple);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(183, 122, 255, 0.15);
+        }
+
+        .trainer-card img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--purple);
+            margin-bottom: 20px;
+        }
+
+        .trainer-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .trainer-card p {
+            color: var(--purple);
+            font-weight: 600;
+        }
+
+        /* Расписание */
+        .schedule {
+            background: var(--card-bg);
+            border-radius: 40px;
+            padding: 50px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--purple);
+            transition: 0.3s;
+        }
+
+        .schedule-item:hover {
+            background: rgba(183, 122, 255, 0.05);
+            transform: scale(1.01);
+        }
+
+        .schedule-time {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--purple);
+            min-width: 120px;
+        }
+
+        .schedule-desc {
+            flex: 1;
+            font-size: 1.1rem;
+        }
+
+        .schedule-trainer {
+            color: #aaa;
+        }
+
+       
+        .class-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: 0.4s;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards;
+        }
+
+        .class-card:hover {
+            border-color: var(--purple);
+            transform: translateY(-10px);
+        }
+
+        .class-card i {
+            font-size: 3rem;
+            color: var(--purple);
+            margin-bottom: 20px;
+        }
+
+        .class-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        /* Абонементы */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 40px 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: 0.4s;
+            position: relative;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards;
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--purple);
+            transform: scale(1.05);
+        }
+
+        .pricing-card h3 {
+            font-size: 2rem;
+            color: var(--purple);
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 20px 0;
+        }
+
+        .price small {
+            font-size: 1rem;
+            color: #888;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .pricing-card ul li {
+            margin: 15px 0;
+            color: #bbb;
+        }
+
+        .pricing-card ul li i {
+            color: var(--purple);
+            margin-right: 10px;
+        }
+
+      
+        .review-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards;
+        }
+
+        .review-card:hover {
+            border-color: var(--purple);
+        }
+
+        .review-card i.fa-quote-left {
+            font-size: 2rem;
+            color: var(--purple);
+            opacity: 0.3;
+            margin-bottom: 15px;
+        }
+
+        .review-card p {
+            font-style: italic;
+            margin: 20px 0;
+            line-height: 1.6;
+            color: #ccc;
+        }
+
+        .reviewer {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .reviewer img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--purple);
+        }
+
+        .reviewer h4 {
+            font-size: 1.1rem;
+        }
+
+        .reviewer span {
+            color: var(--purple);
+            font-size: 0.9rem;
+        }
+
+     
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            background: var(--card-bg);
+            border-radius: 40px;
+            padding: 50px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .contact-item i {
+            font-size: 1.8rem;
+            color: var(--purple);
+            width: 40px;
+        }
+
+        .payment-icons {
+            display: flex;
+            gap: 20px;
+            font-size: 2.5rem;
+            color: #555;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .payment-icons i {
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .payment-icons i:hover {
+            color: var(--purple);
+            transform: translateY(-5px);
+        }
+
+      
+        .register-form input,
+        .register-form select,
+        .register-form textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        .register-form input:focus,
+        .register-form select:focus,
+        .register-form textarea:focus {
+            border-color: var(--purple);
+            outline: none;
+            box-shadow: 0 0 15px rgba(183, 122, 255, 0.3);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 30px;
+            margin: 20px 0;
+            color: #aaa;
+        }
+
+        .radio-group label {
+            cursor: pointer;
+        }
+
+        .radio-group input {
+            accent-color: var(--purple);
+            margin-right: 5px;
+        }
+
+        .form-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--purple);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .form-btn:hover {
+            background: var(--purple-dark);
+            box-shadow: 0 0 25px var(--purple);
+        }
+
+       
+        footer {
+            background: var(--bg);
+            padding: 30px 5%;
+            text-align: center;
+            border-top: 2px solid var(--purple);
+            color: #aaa;
+        }
+
+        @media (max-width: 992px) {
+            .pricing-grid,
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+<div class="logo">Glow<span>Fit</span></div>
+<nav>
+<ul>
+<li><a href="#home">Главная</a></li>
+<li><a href="#trainers">Тренеры</a></li>
+<li><a href="#schedule">Расписание</a></li>
+<li><a href="#classes">Занятия</a></li>
+<li><a href="#pricing">Абонементы</a></li>
+<li><a href="#reviews">Отзывы</a></li>
+<li><a href="#contact">Контакты</a></li>
+</ul>
+</nav>
+</header>
+
+<!-- Главная -->
+<section class="hero" id="home">
+<div class="hero-content">
+<h1>Сияй <span>с каждым</span> движением</h1>
+<p>Фитнес-студия для комфортных тренировок. Тренировки, вдохновение и забота о тебе.</p>
+<a href="#contact" class="btn">Записаться</a>
+</div>
+<div class="hero-image">
+<img src="https://avatars.mds.yandex.net/get-altay/1335362/2a000001661a17b07b90f2483044c2ea5207/XXL_height" alt="Фитнес">
+</div>
+</section>
+
+<!-- Тренеры -->
+<section id="trainers">
+<h2 class="section-title">Наши <span>тренеры</span></h2>
+<div class="trainers-grid">
+<div class="trainer-card animate-item delay-1">
+<img src="https://static.tildacdn.com/tild3936-3032-4539-b635-336361626130/_.jpg" alt="Алина">
+<h3>Алина Волкова</h3>
+<p>Йога / Стретчинг</p>
+</div>
+<div class="trainer-card animate-item delay-2">
+<img src="https://static.tildacdn.com/tild3036-3862-4235-a436-376562323031/_.jpg" alt="Мария">
+<h3>Мария Сокол</h3>
+<p>Пилатес / Силовые</p>
+</div>
+<div class="trainer-card animate-item delay-3">
+<img src="https://static.tildacdn.com/tild3937-3665-4438-b533-366338613762/_.jpg" alt="Екатерина">
+<h3>Екатерина Мизулина</h3>
+<p>Танцы / Кардио</p>
+</div>
+</div>
+</section>
+
+<!-- Расписание -->
+<section id="schedule" class="schedule">
+<h2 class="section-title">Расписание <span>занятий</span></h2>
+<div class="schedule-item animate-item">
+<div class="schedule-time">09:00</div>
+<div class="schedule-desc">Утренняя йога</div>
+<div class="schedule-trainer">Алина Волкова</div>
+</div>
+<div class="schedule-item animate-item delay-1">
+<div class="schedule-time">11:00</div>
+<div class="schedule-desc">Пилатес</div>
+<div class="schedule-trainer">Мария Сокол</div>
+</div>
+<div class="schedule-item animate-item delay-2">
+<div class="schedule-time">17:00</div>
+<div class="schedule-desc">Танцевальный фитнес</div>
+<div class="schedule-trainer">Екатерина Мизулина</div>
+</div>
+<div class="schedule-item animate-item delay-3">
+<div class="schedule-time">19:00</div>
+<div class="schedule-desc">Силовая</div>
+<div class="schedule-trainer">Мария Сокол</div>
+</div>
+</section>
+
+<!-- Виды занятий -->
+<section id="classes">
+<h2 class="section-title">Виды <span>занятий</span></h2>
+<div class="classes-grid">
+<div class="class-card animate-item delay-1">
+<i class="fas fa-om"></i>
+<h3>Йога</h3>
+<p>Гармония и гибкость</p>
+</div>
+<div class="class-card animate-item delay-2">
+<i class="fas fa-heartbeat"></i>
+<h3>Пилатес</h3>
+<p>Кор и осанка</p>
+</div>
+<div class="class-card animate-item delay-3">
+<i class="fas fa-dumbbell"></i>
+<h3>Силовые</h3>
+<p>Тонус и сила</p>
+</div>
+<div class="class-card animate-item delay-1">
+<i class="fas fa-music"></i>
+<h3>Танцы</h3>
+<p>Кардио и настроение</p>
+</div>
+<div class="class-card animate-item delay-2">
+<i class="fas fa-spa"></i>
+<h3>Стретчинг</h3>
+<p>Растяжка</p>
+</div>
+<div class="class-card animate-item delay-3">
+<i class="fas fa-bicycle"></i>
+<h3>Сайкл</h3>
+<p>Интенсив</p>
+</div>
+</div>
+</section>
+
+<!-- Абонементы -->
+<section id="pricing">
+<h2 class="section-title">Выберите <span>абонемент</span></h2>
+<div class="pricing-grid">
+<div class="pricing-card animate-item delay-1">
+<h3>Light</h3>
+<div class="price">12 000 <small>₸</small></div>
+<ul>
+<li><i class="fas fa-check"></i> 4 занятия в месяц</li>
+<li><i class="fas fa-check"></i> Любое направление</li>
+<li><i class="fas fa-times"></i> Без заморозки</li>
+</ul>
+<a href="#contact" class="btn">Выбрать</a>
+</div>
+<div class="pricing-card popular animate-item delay-2">
+<h3>Smart</h3>
+<div class="price">18 000 <small>₸</small></div>
+<ul>
+<li><i class="fas fa-check"></i> 8 занятий в месяц</li>
+<li><i class="fas fa-check"></i> Любое направление</li>
+<li><i class="fas fa-check"></i> Заморозка 7 дней</li>
+<li><i class="fas fa-check"></i> Раздевалка</li>
+</ul>
+<a href="#contact" class="btn">Выбрать</a>
+</div>
+<div class="pricing-card animate-item delay-3">
+<h3>Infinity</h3>
+<div class="price">25 000 <small>₸</small></div>
+<ul>
+<li><i class="fas fa-check"></i> Безлимит занятий</li>
+<li><i class="fas fa-check"></i> Все направления</li>
+<li><i class="fas fa-check"></i> Заморозка 14 дней</li>
+<li><i class="fas fa-check"></i> Гостевой визит</li>
+</ul>
+<a href="#contact" class="btn">Выбрать</a>
+</div>
+</div>
+</section>
+
+<!-- Отзывы -->
+<section id="reviews">
+<h2 class="section-title">Отзывы <span>наших</span> клиентов</h2>
+<div class="reviews-grid">
+<div class="review-card animate-item delay-1">
+<i class="fas fa-quote-left"></i>
+<p>Хожу сюда полгода, очень нравится атмосфера. Тренеры внимательные, результат виден!</p>
+<div class="reviewer">
+<img src="https://i.pinimg.com/736x/66/1c/e3/661ce39c80e5e86b0829af53c88fecac.jpg" alt="Анастасия">
+<div>
+<h4>Анастасия</h4>
+<span>6 месяцев</span>
+</div>
+</div>
+</div>
+<div class="review-card animate-item delay-2">
+<i class="fas fa-quote-left"></i>
+<p>Лучший фитнес клуб в Кокшетау. Хожу на йогу к Алине — кайфую каждый раз.</p>
+<div class="reviewer">
+<img src="https://img.freepik.com/premium-photo/smiling-blonde-girl-sitting-sandy-beach-summer-morning_283817-157.jpg?semt=ais_hybrid&w=740&q=80" alt="Елена">
+<div>
+<h4>Елена</h4>
+<span>1 год</span>
+</div>
+</div>
+</div>
+<div class="review-card animate-item delay-3">
+<i class="fas fa-quote-left"></i>
+<p>Очень удобное расписание, есть вечерние тренировки. Цены адекватные, а главное — результат!</p>
+<div class="reviewer">
+<img src="https://img.freepik.com/premium-photo/young-beauty-sunny-spring-day-2965_208657-1011.jpg?semt=ais_hybrid" alt="Марина">
+<div>
+<h4>Марина</h4>
+<span>3 месяца</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Контакты -->
+<section id="contact">
+<div class="contact-wrapper">
+<div class="contact-info">
+<h2 class="section-title" style="text-align: left;">Контакты</h2>
+<div class="contact-item">
+<i class="fas fa-map-pin"></i>
+<div>
+<h3>Адрес</h3>
+<p>г. Кокшетау, ул. Абая 15</p>
+</div>
+</div>
+<div class="contact-item">
+<i class="fas fa-phone"></i>
+<div>
+<h3>Телефон</h3>
+<p>+7 (777) 123-45-67</p>
+</div>
+</div>
+<div class="contact-item">
+<i class="fas fa-envelope"></i>
+<div>
+<h3>Email</h3>
+<p>glowfit.kz@mail.ru</p>
+</div>
+</div>
+<div class="contact-item">
+<i class="fas fa-clock"></i>
+<div>
+<h3>Режим работы</h3>
+<p>Пн-Пт: 07:00 - 22:00<br>Сб-Вс: 09:00 - 20:00</p>
+</div>
+</div>
+<div class="payment-icons">
+<i class="fab fa-cc-visa"></i>
+<i class="fab fa-cc-mastercard"></i>
+<i class="fab fa-apple-pay"></i>
+<i class="fab fa-google-pay"></i>
+</div>
+</div>
+
+<!-- Форма -->
+<div class="register-form">
+<h2 class="section-title" style="text-align: left;">Записаться</h2>
+<form id="glowForm">
+<input type="text" placeholder="Имя" required>
+<input type="tel" placeholder="Телефон" required>
+<input type="email" placeholder="Email">
+<select required>
+<option value="" disabled selected>Абонемент</option>
+<option>Light (12 000 ₸)</option>
+<option>Smart (18 000 ₸)</option>
+<option>Infinity (25 000 ₸)</option>
+</select>
+<textarea rows="3" placeholder="Пожелания"></textarea>
+                    
+<div class="radio-group">
+<label><input type="radio" name="contact" checked> Звонок</label>
+<label><input type="radio" name="contact"> WhatsApp</label>
+</div>
+
+<button type="submit" class="form-btn">Отправить</button>
+</form>
+<div id="formMessage" style="text-align: center; margin-top: 15px;"></div>
+</div>
+</div>
+</section>
+
+<footer>
+<p>© 2025 GlowFit. Фитнес для комфортных тренировок.</p>
+</footer>
+
+<script>
+
+const cards = document.querySelectorAll('.trainer-card, .class-card, .pricing-card, .review-card, .schedule-item');
+        
+function checkVisible() {
+cards.forEach(card => {
+const rect = card.getBoundingClientRect();
+if (rect.top < window.innerHeight - 50) {
+card.style.opacity = '1';
+card.style.transform = 'translateY(0)';
+}
+});
+}
+
+window.addEventListener('scroll', checkVisible);
+window.addEventListener('load', checkVisible);
+
+
+const form = document.getElementById('glowForm');
+const msg = document.getElementById('formMessage');
+
+form.addEventListener('submit', function(e) {
+e.preventDefault();
+msg.innerHTML = 'Спасибо! Мы скоро свяжемся.';
+msg.style.color = '#b77aff';
+form.reset();
+setTimeout(() => msg.innerHTML = '', 4000);
+});
+</script>
+</body>
+</html>
